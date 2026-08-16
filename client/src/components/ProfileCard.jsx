@@ -1,54 +1,40 @@
 function ProfileCard() {
-
-  const farmer = JSON.parse(localStorage.getItem("farmer"));
+  const farmer = JSON.parse(localStorage.getItem("farmer") || "null");
 
   return (
-    <div className="bg-white p-7 rounded-[30px] shadow-xl">
+    <div className="bg-[var(--paper)] border border-[var(--line)] rounded-lg p-7 shadow-[var(--shadow-card)]">
+      <p className="label-eyebrow mb-5">Farmer Record</p>
 
-      <div className="flex items-center gap-5">
-
-        <div className="w-20 h-20 rounded-full bg-green-600 flex items-center justify-center text-white text-3xl font-bold">
-          {farmer?.name?.charAt(0)}
+      <div className="flex items-center gap-4">
+        <div className="w-14 h-14 rounded-md bg-[var(--moss-900)] flex items-center justify-center text-[var(--wheat)] font-display text-xl">
+          {farmer?.name?.charAt(0) || "F"}
         </div>
 
         <div>
-
-          <h1 className="text-2xl font-bold text-green-900">
-            {farmer?.name}
+          <h1 className="font-display text-xl text-[var(--ink)] leading-tight">
+            {farmer?.name || "Unnamed Farmer"}
           </h1>
-
-          <p className="text-gray-500">
-            {farmer?.district}, {farmer?.state}
+          <p className="text-[var(--ink-soft)] text-sm mt-0.5">
+            {farmer?.district || "—"}, {farmer?.state || "—"}
           </p>
-
         </div>
-
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-8">
-
-        <div className="bg-green-50 p-4 rounded-2xl">
-          <h2 className="text-gray-500">
-            Farm Size
-          </h2>
-
-          <p className="text-xl font-bold text-green-800 mt-2">
-            {farmer?.farmSize} Acres
+      <div className="grid grid-cols-2 gap-3 mt-6">
+        <div className="bg-[var(--moss-100)] p-4 rounded-md">
+          <p className="label-eyebrow mb-2">Farm Size</p>
+          <p className="readout text-lg text-[var(--moss-900)]">
+            {farmer?.farmSize || "—"} <span className="text-sm">acres</span>
           </p>
         </div>
 
-        <div className="bg-green-50 p-4 rounded-2xl">
-          <h2 className="text-gray-500">
-            Crop Type
-          </h2>
-
-          <p className="text-xl font-bold text-green-800 mt-2">
-            {farmer?.cropType}
+        <div className="bg-[var(--moss-100)] p-4 rounded-md">
+          <p className="label-eyebrow mb-2">Crop Type</p>
+          <p className="readout text-lg text-[var(--moss-900)]">
+            {farmer?.cropType || "—"}
           </p>
         </div>
-
       </div>
-
     </div>
   );
 }

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatsCard from "../components/StatsCard";
@@ -11,366 +9,85 @@ import SoilRadarChart from "../components/SoilRadarChart";
 import YieldForecastChart from "../components/YieldForecastChart";
 import InsightsCard from "../components/InsightsCard";
 import WeatherWidget from "../components/WeatherWidget";
-import FarmMap from "../components/FarmMap";
-import AIFarmSummary from "../components/AIFarmSummary";
-import LiveActivityFeed from "../components/LiveActivityFeed";
 
-import {
-  FaSeedling,
-  FaMapMarkedAlt,
-  FaWater,
-  FaLeaf,
-  FaBrain,
-  FaChartLine,
-} from "react-icons/fa";
-
-import { motion } from "framer-motion";
+import { FaSeedling, FaMapLocationDot, FaDroplet } from "react-icons/fa6";
 
 function Dashboard() {
-
-  const farmer = JSON.parse(
-    localStorage.getItem("farmer")
-  );
-
-  const [notificationOpen, setNotificationOpen] =
-    useState(false);
+  const farmer = JSON.parse(localStorage.getItem("farmer") || "null");
 
   return (
-
-    <div className="bg-gradient-to-br from-[#f4fff7] via-[#eefbf3] to-[#e8fff0] min-h-screen">
-
-      {/* SIDEBAR */}
+    <div className="bg-[var(--canvas)] min-h-screen">
       <Sidebar />
 
-      {/* MAIN */}
-      <div className="ml-[290px] p-8">
-
-        {/* NAVBAR */}
+      <div className="ml-[264px] p-10 max-w-[1400px]">
         <Navbar />
 
-        <AIFarmSummary />
-
-        <div className="mt-8">
-          <LiveActivityFeed />
-          </div>
-
-        {/* HERO SECTION */}
-        <motion.div
-
-          initial={{ opacity: 0, y: 40 }}
-
-          animate={{ opacity: 1, y: 0 }}
-
-          className="relative overflow-hidden rounded-[40px] bg-gradient-to-r from-green-800 via-green-700 to-emerald-600 p-10 shadow-2xl text-white"
-        >
-
-          {/* GLOW */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -mr-20 -mt-20"></div>
-
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full -ml-20 -mb-20"></div>
-
-          <div className="relative z-10">
-
-            <div className="flex items-center gap-4 mb-6">
-
-              <div className="bg-white text-green-700 p-4 rounded-3xl shadow-xl">
-                <FaLeaf size={30} />
-              </div>
-
-              <div>
-
-                <h1 className="text-5xl font-bold">
-                  Smart Agriculture AI 🌱
-                </h1>
-
-                <p className="text-green-100 mt-2 text-lg">
-                  Precision Farming & Intelligent Crop Analytics
-                </p>
-
-              </div>
-
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+          {/* LEFT */}
+          <div className="lg:col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <StatsCard
+                title="Crop Type"
+                value={farmer?.cropType || "—"}
+                accent="moss"
+                icon={<FaSeedling />}
+              />
+              <StatsCard
+                title="Farm Size"
+                value={`${farmer?.farmSize || "—"} ac`}
+                accent="slate"
+                icon={<FaMapLocationDot />}
+              />
+              <StatsCard
+                title="Water Level"
+                value="78%"
+                accent="wheat"
+                icon={<FaDroplet />}
+              />
             </div>
 
-            <p className="max-w-3xl text-green-50 leading-8 text-lg">
-
-              AI-powered fertilizer optimization,
-              OCR soil analysis,
-              crop intelligence,
-              smart farming insights,
-              and yield prediction system.
-
-            </p>
-
-          </div>
-
-        </motion.div>
-
-        {/* STATS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-10">
-
-          <StatsCard
-            title="Crop Type"
-            value={farmer?.cropType || "Wheat"}
-            color="bg-gradient-to-br from-green-700 to-green-500"
-            icon={<FaSeedling />}
-          />
-
-          <StatsCard
-            title="Farm Size"
-            value={farmer?.farmSize || 12}
-            unit=" Acres"
-            color="bg-gradient-to-br from-blue-700 to-blue-500"
-            icon={<FaMapMarkedAlt />}
-          />
-
-          <StatsCard
-            title="Water Level"
-            value={78}
-            unit="%"
-            color="bg-gradient-to-br from-cyan-700 to-cyan-500"
-            icon={<FaWater />}
-          />
-
-          <StatsCard
-            title="Soil Health"
-            value={84}
-            unit="/100"
-            color="bg-gradient-to-br from-orange-600 to-yellow-500"
-            icon={<FaChartLine />}
-          />
-
-        </div>
-
-        {/* MAIN GRID */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-10">
-
-          {/* LEFT SIDE */}
-          <div className="xl:col-span-2 space-y-8">
-
-            {/* YIELD CHART */}
-            <motion.div
-              whileHover={{ y: -4 }}
-            >
-              <YieldChart />
-            </motion.div>
-
-            {/* RECOMMENDATION */}
-            <motion.div
-              whileHover={{ y: -4 }}
-            >
-              <RecommendationCard />
-            </motion.div>
-
-            {/* NITROGEN */}
-            <motion.div
-              whileHover={{ y: -4 }}
-            >
+            <YieldChart />
+            <RecommendationCard />
+            <div className="mt-6">
               <NitrogenChart />
-            </motion.div>
-
-            {/* ANALYTICS */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-              <motion.div
-                whileHover={{ y: -4 }}
-              >
-                <SoilRadarChart />
-              </motion.div>
-
-              <motion.div
-                whileHover={{ y: -4 }}
-              >
-                <YieldForecastChart />
-              </motion.div>
-
             </div>
 
-            {/* FARM MAP */}
-            <motion.div
-              whileHover={{ y: -4 }}
-            >
-              <FarmMap />
-            </motion.div>
-
-            {/* INSIGHTS + WEATHER */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-              <motion.div
-                whileHover={{ y: -4 }}
-              >
-                <InsightsCard />
-              </motion.div>
-
-              <motion.div
-                whileHover={{ y: -4 }}
-              >
-                <WeatherWidget />
-              </motion.div>
-
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+              <SoilRadarChart />
+              <YieldForecastChart />
             </div>
 
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+              <InsightsCard />
+              <WeatherWidget />
+            </div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="space-y-8">
+          {/* RIGHT */}
+          <div className="space-y-6">
+            <ProfileCard />
 
-            {/* PROFILE */}
-            <motion.div
-              whileHover={{ y: -4 }}
-            >
-              <ProfileCard />
-            </motion.div>
+            <div className="bg-[var(--paper)] border border-[var(--line)] rounded-lg p-7 shadow-[var(--shadow-card)]">
+              <p className="label-eyebrow mb-5">Weather Analysis</p>
 
-            {/* AI STATUS */}
-            <div className="bg-white/90 backdrop-blur-xl p-8 rounded-[35px] shadow-2xl border border-white/40">
-
-              <div className="flex items-center gap-4 mb-6">
-
-                <div className="bg-purple-100 text-purple-700 p-4 rounded-2xl">
-                  <FaBrain size={26} />
+              <div className="space-y-4">
+                <div className="flex justify-between items-baseline">
+                  <span className="text-sm text-[var(--ink-soft)]">Temperature</span>
+                  <span className="readout font-medium">29°C</span>
                 </div>
-
-                <div>
-
-                  <h1 className="text-2xl font-bold text-green-900">
-                    AI Prediction Status
-                  </h1>
-
-                  <p className="text-gray-500">
-                    Real-time ML insights
-                  </p>
-
+                <div className="flex justify-between items-baseline">
+                  <span className="text-sm text-[var(--ink-soft)]">Humidity</span>
+                  <span className="readout font-medium">68%</span>
                 </div>
-
+                <div className="flex justify-between items-baseline">
+                  <span className="text-sm text-[var(--ink-soft)]">Rainfall</span>
+                  <span className="readout font-medium">120 mm</span>
+                </div>
               </div>
-
-              <div className="space-y-6">
-
-                <div className="bg-green-50 p-5 rounded-2xl">
-
-                  <div className="flex justify-between">
-
-                    <span className="text-gray-600">
-                      Nitrogen Optimization
-                    </span>
-
-                    <span className="font-bold text-green-700">
-                      92%
-                    </span>
-
-                  </div>
-
-                  <div className="w-full bg-green-100 h-3 rounded-full mt-3">
-
-                    <div className="bg-green-600 h-3 rounded-full w-[92%]"></div>
-
-                  </div>
-
-                </div>
-
-                <div className="bg-blue-50 p-5 rounded-2xl">
-
-                  <div className="flex justify-between">
-
-                    <span className="text-gray-600">
-                      Yield Forecast
-                    </span>
-
-                    <span className="font-bold text-blue-700">
-                      88%
-                    </span>
-
-                  </div>
-
-                  <div className="w-full bg-blue-100 h-3 rounded-full mt-3">
-
-                    <div className="bg-blue-600 h-3 rounded-full w-[88%]"></div>
-
-                  </div>
-
-                </div>
-
-                <div className="bg-orange-50 p-5 rounded-2xl">
-
-                  <div className="flex justify-between">
-
-                    <span className="text-gray-600">
-                      Soil Health
-                    </span>
-
-                    <span className="font-bold text-orange-700">
-                      84%
-                    </span>
-
-                  </div>
-
-                  <div className="w-full bg-orange-100 h-3 rounded-full mt-3">
-
-                    <div className="bg-orange-500 h-3 rounded-full w-[84%]"></div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
             </div>
-
-            {/* WEATHER */}
-            <div className="bg-white/90 backdrop-blur-xl p-8 rounded-[35px] shadow-2xl border border-white/40">
-
-              <h1 className="text-2xl font-bold text-green-900 mb-6">
-                Weather Intelligence 🌦️
-              </h1>
-
-              <div className="space-y-5">
-
-                <div className="flex justify-between items-center bg-green-50 p-4 rounded-2xl">
-
-                  <span className="text-gray-700">
-                    Temperature
-                  </span>
-
-                  <span className="font-bold text-green-700">
-                    29°C
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between items-center bg-blue-50 p-4 rounded-2xl">
-
-                  <span className="text-gray-700">
-                    Humidity
-                  </span>
-
-                  <span className="font-bold text-blue-700">
-                    68%
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between items-center bg-cyan-50 p-4 rounded-2xl">
-
-                  <span className="text-gray-700">
-                    Rainfall
-                  </span>
-
-                  <span className="font-bold text-cyan-700">
-                    120 mm
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

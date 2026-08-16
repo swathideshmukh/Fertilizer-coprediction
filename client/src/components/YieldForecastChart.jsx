@@ -4,6 +4,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
@@ -18,33 +19,52 @@ const data = [
 
 function YieldForecastChart() {
   return (
-    <div className="bg-white p-8 rounded-[30px] shadow-xl">
-
-      <h1 className="text-3xl font-bold text-green-900 mb-8">
+    <div className="bg-[var(--paper)] border border-[var(--line)] rounded-lg p-7 shadow-[var(--shadow-card)]">
+      <h1 className="font-display text-xl text-[var(--moss-900)] mb-6">
         Yield Forecast Analysis
       </h1>
 
-      <ResponsiveContainer width="100%" height={350}>
-
+      <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data}>
-
-          <XAxis dataKey="month" />
-
-          <YAxis />
-
-          <Tooltip />
-
+          <CartesianGrid stroke="var(--line)" vertical={false} />
+          <defs>
+            <linearGradient id="yieldFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--wheat)" stopOpacity={0.4} />
+              <stop offset="100%" stopColor="var(--wheat)" stopOpacity={0.02} />
+            </linearGradient>
+          </defs>
+          <XAxis
+            dataKey="month"
+            stroke="var(--ink-soft)"
+            tickLine={false}
+            axisLine={false}
+            fontSize={12}
+            fontFamily="IBM Plex Mono"
+          />
+          <YAxis
+            stroke="var(--ink-soft)"
+            tickLine={false}
+            axisLine={false}
+            fontSize={12}
+            fontFamily="IBM Plex Mono"
+          />
+          <Tooltip
+            contentStyle={{
+              borderRadius: 8,
+              border: "1px solid var(--line)",
+              fontFamily: "IBM Plex Mono",
+              fontSize: 13,
+            }}
+          />
           <Area
             type="monotone"
             dataKey="yield"
-            stroke="#16a34a"
-            fill="#4ade80"
+            stroke="var(--wheat)"
+            strokeWidth={2.5}
+            fill="url(#yieldFill)"
           />
-
         </AreaChart>
-
       </ResponsiveContainer>
-
     </div>
   );
 }

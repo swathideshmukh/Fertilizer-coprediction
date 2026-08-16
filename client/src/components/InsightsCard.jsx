@@ -1,31 +1,31 @@
+import { FaSeedling, FaDroplet, FaWheatAwn, FaTriangleExclamation } from "react-icons/fa6";
+
+const INSIGHTS = [
+  { icon: FaSeedling, text: "Nitrogen utilization efficiency improved by 12%." },
+  { icon: FaDroplet, text: "Soil moisture levels are optimal for crop growth." },
+  { icon: FaWheatAwn, text: "Yield forecast predicts an 18% increase this season." },
+  { icon: FaTriangleExclamation, text: "Potassium levels are slightly below ideal range.", warn: true },
+];
+
 function InsightsCard() {
   return (
-    <div className="bg-gradient-to-r from-green-700 to-green-500 text-white p-8 rounded-[30px] shadow-2xl">
+    <div className="bg-[var(--paper)] border border-[var(--line)] rounded-lg p-7 shadow-[var(--shadow-card)]">
+      <p className="label-eyebrow mb-5">AI Insights</p>
 
-      <h1 className="text-3xl font-bold mb-6">
-        AI Insights
-      </h1>
-
-      <div className="space-y-5 text-lg leading-8">
-
-        <p>
-          🌱 Nitrogen utilization efficiency improved by 12%.
-        </p>
-
-        <p>
-          💧 Soil moisture levels are optimal for crop growth.
-        </p>
-
-        <p>
-          🌾 Yield forecast predicts 18% increase this season.
-        </p>
-
-        <p>
-          ⚠️ Potassium levels are slightly below ideal range.
-        </p>
-
+      <div className="space-y-4">
+        {INSIGHTS.map(({ icon: Icon, text, warn }, i) => (
+          <div key={i} className="flex items-start gap-3">
+            <span
+              className={`mt-0.5 shrink-0 ${
+                warn ? "text-[var(--wheat)]" : "text-[var(--moss-700)]"
+              }`}
+            >
+              <Icon size={14} />
+            </span>
+            <p className="text-[var(--ink)] text-sm leading-6">{text}</p>
+          </div>
+        ))}
       </div>
-
     </div>
   );
 }

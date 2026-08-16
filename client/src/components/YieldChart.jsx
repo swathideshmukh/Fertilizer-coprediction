@@ -4,6 +4,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
@@ -17,33 +18,50 @@ const data = [
 
 function YieldChart() {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-lg mt-8">
+    <div className="bg-[var(--paper)] border border-[var(--line)] rounded-lg p-7 mt-6 shadow-[var(--shadow-card)]">
+      <div className="flex items-baseline justify-between mb-6">
+        <h2 className="font-display text-xl text-[var(--moss-900)]">
+          Crop Yield Analysis
+        </h2>
+        <p className="label-eyebrow">Last 5 months</p>
+      </div>
 
-      <h2 className="text-2xl font-bold text-green-700 mb-6">
-        Crop Yield Analysis
-      </h2>
-
-      <ResponsiveContainer width="100%" height={300}>
-
+      <ResponsiveContainer width="100%" height={280}>
         <LineChart data={data}>
-
-          <XAxis dataKey="month" />
-
-          <YAxis />
-
-          <Tooltip />
-
+          <CartesianGrid stroke="var(--line)" vertical={false} />
+          <XAxis
+            dataKey="month"
+            stroke="var(--ink-soft)"
+            tickLine={false}
+            axisLine={false}
+            fontSize={12}
+            fontFamily="IBM Plex Mono"
+          />
+          <YAxis
+            stroke="var(--ink-soft)"
+            tickLine={false}
+            axisLine={false}
+            fontSize={12}
+            fontFamily="IBM Plex Mono"
+          />
+          <Tooltip
+            contentStyle={{
+              borderRadius: 8,
+              border: "1px solid var(--line)",
+              fontFamily: "IBM Plex Mono",
+              fontSize: 13,
+            }}
+          />
           <Line
             type="monotone"
             dataKey="yield"
-            stroke="#15803d"
-            strokeWidth={3}
+            stroke="var(--moss-700)"
+            strokeWidth={2.5}
+            dot={{ fill: "var(--wheat)", r: 4, strokeWidth: 0 }}
+            activeDot={{ r: 6 }}
           />
-
         </LineChart>
-
       </ResponsiveContainer>
-
     </div>
   );
 }

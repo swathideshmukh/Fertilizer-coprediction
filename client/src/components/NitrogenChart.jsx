@@ -19,51 +19,57 @@ const data = [
 
 function NitrogenChart() {
   return (
-    <div className="bg-white p-8 rounded-[30px] shadow-xl mt-8">
-
-      <div className="flex justify-between items-center mb-8">
-
+    <div className="bg-[var(--paper)] border border-[var(--line)] rounded-lg p-7 mt-6 shadow-[var(--shadow-card)]">
+      <div className="flex justify-between items-start mb-6">
         <div>
-
-          <h1 className="text-3xl font-bold text-green-900">
+          <h1 className="font-display text-xl text-[var(--moss-900)]">
             Nitrogen Trend Analysis
           </h1>
-
-          <p className="text-gray-500 mt-2">
+          <p className="text-[var(--ink-soft)] text-sm mt-1">
             Monthly nitrogen usage monitoring
           </p>
-
         </div>
 
-        <div className="bg-green-100 text-green-700 px-5 py-3 rounded-2xl font-semibold">
-          +12% Improvement
-        </div>
-
+        <span className="readout text-xs bg-[var(--moss-100)] text-[var(--moss-700)] px-3 py-1.5 rounded-full">
+          +12% improvement
+        </span>
       </div>
 
-      <ResponsiveContainer width="100%" height={350}>
-
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
-
-          <CartesianGrid strokeDasharray="3 3" />
-
-          <XAxis dataKey="month" />
-
-          <YAxis />
-
-          <Tooltip />
-
+          <CartesianGrid stroke="var(--line)" vertical={false} />
+          <XAxis
+            dataKey="month"
+            stroke="var(--ink-soft)"
+            tickLine={false}
+            axisLine={false}
+            fontSize={12}
+            fontFamily="IBM Plex Mono"
+          />
+          <YAxis
+            stroke="var(--ink-soft)"
+            tickLine={false}
+            axisLine={false}
+            fontSize={12}
+            fontFamily="IBM Plex Mono"
+          />
+          <Tooltip
+            contentStyle={{
+              borderRadius: 8,
+              border: "1px solid var(--line)",
+              fontFamily: "IBM Plex Mono",
+              fontSize: 13,
+            }}
+          />
           <Line
             type="monotone"
             dataKey="nitrogen"
-            stroke="#15803d"
-            strokeWidth={4}
+            stroke="var(--slate)"
+            strokeWidth={2.5}
+            dot={{ fill: "var(--slate)", r: 4, strokeWidth: 0 }}
           />
-
         </LineChart>
-
       </ResponsiveContainer>
-
     </div>
   );
 }

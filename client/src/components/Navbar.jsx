@@ -1,55 +1,36 @@
-import React, { useState } from "react";
-
 import { FaBell } from "react-icons/fa";
 
-import NotificationDropdown from "./NotificationDropdown";
-
 function Navbar() {
+  const farmer = JSON.parse(localStorage.getItem("farmer") || "null");
 
-  const farmer = JSON.parse(
-    localStorage.getItem("farmer")
-  );
-
-  const [notificationOpen, setNotificationOpen] =
-    useState(false);
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
-
-    <div className="flex justify-between items-center mb-8">
-
-      {/* LEFT */}
+    <div className="flex justify-between items-end mb-9 pb-6 border-b border-[var(--line)]">
       <div>
-
-        <h1 className="text-4xl font-bold text-green-900">
-          Smart Agriculture Dashboard
+        <p className="label-eyebrow mb-2">{today}</p>
+        <h1 className="font-display text-[2.1rem] leading-none text-[var(--moss-900)]">
+          Field Console
         </h1>
-
-        <p className="text-gray-500 mt-2">
-          Welcome back, {farmer?.name}
+        <p className="text-[var(--ink-soft)] mt-2 text-[0.95rem]">
+          Welcome back, {farmer?.name || "Farmer"}
         </p>
-
       </div>
 
-      {/* RIGHT */}
-      <div className="flex items-center gap-5 relative">
+      <div className="flex items-center gap-3">
+        <button className="w-11 h-11 rounded-md bg-[var(--paper)] border border-[var(--line)] flex items-center justify-center text-[var(--moss-700)] hover:border-[var(--line-strong)] transition-colors">
+          <FaBell size={15} />
+        </button>
 
-        {/* NOTIFICATION BUTTON */}
-
-        {/* DROPDOWN */}
-        <NotificationDropdown
-          open={notificationOpen}
-          setOpen={setNotificationOpen}
-        />
-
-        {/* AI BADGE */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-4 rounded-2xl shadow-lg font-semibold">
-
-          🌾 AI Smart Farming
-
+        <div className="px-4 py-2.5 rounded-md bg-[var(--moss-900)] text-white text-sm flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--wheat)]" />
+          AI Systems Active
         </div>
-
       </div>
-
     </div>
   );
 }
