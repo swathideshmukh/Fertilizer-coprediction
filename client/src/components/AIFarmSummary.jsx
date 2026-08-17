@@ -1,492 +1,128 @@
 import { motion } from "framer-motion";
+import {
+  FaDroplet,
+  FaCloudRain,
+  FaSeedling,
+  FaTriangleExclamation,
+} from "react-icons/fa6";
+
+const STATS = [
+  { label: "Soil Health", value: "84", accent: "moss" },
+  { label: "Moisture", value: "61%", accent: "slate" },
+  { label: "Rain Risk", value: "68%", accent: "wheat" },
+  { label: "Yield Growth", value: "+12%", accent: "moss" },
+];
+
+const ALERTS = [
+  {
+    icon: FaCloudRain,
+    title: "Rain expected tomorrow",
+    text: "Avoid fertilizer application during rainfall.",
+  },
+  {
+    icon: FaDroplet,
+    title: "Irrigation stable",
+    text: "Soil moisture is healthy for crop growth.",
+  },
+  {
+    icon: FaSeedling,
+    title: "Nitrogen monitoring",
+    text: "Nitrogen slightly high. Reduce urea this week.",
+  },
+];
 
 function AIFarmSummary() {
-
-  const farmer = JSON.parse(
-    localStorage.getItem("farmer")
-  );
+  const farmer = JSON.parse(localStorage.getItem("farmer") || "null");
 
   const hour = new Date().getHours();
-
-  let greeting = "Good Evening 🌙";
-
-  if (hour < 12) {
-    greeting = "Good Morning ☀️";
-  } else if (hour < 18) {
-    greeting = "Good Afternoon 🌤️";
-  }
+  let greeting = "Good Evening";
+  if (hour < 12) greeting = "Good Morning";
+  else if (hour < 18) greeting = "Good Afternoon";
 
   return (
-
     <motion.div
-
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-
-      className="
-      bg-white
-      rounded-[35px]
-      shadow-xl
-      p-8
-      border
-      border-green-100
-      mt-8
-      overflow-hidden
-      relative
-      "
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-[var(--moss-900)] text-white rounded-lg p-7 relative overflow-hidden"
     >
-
-      {/* BACKGROUND GLOW */}
-
-      <div className="
-      absolute
-      top-0
-      right-0
-      w-72
-      h-72
-      bg-green-100
-      rounded-full
-      blur-3xl
-      opacity-30
-      -mr-24
-      -mt-24
-      "></div>
+      <span className="absolute top-0 left-0 right-0 h-1 bg-[var(--wheat)]" />
 
       {/* HEADER */}
-
-      <div className="
-      flex
-      flex-col
-      lg:flex-row
-      lg:items-center
-      lg:justify-between
-      gap-6
-      relative
-      z-10
-      ">
-
-        {/* LEFT */}
-
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         <div>
-
-          <h1 className="
-          text-4xl
-          font-bold
-          text-green-900
-          ">
-
-            {greeting}
-
-          </h1>
-
-          <p className="
-          text-gray-500
-          mt-2
-          text-lg
-          ">
-
-            AI Daily Farm Summary
-
+          <p className="label-eyebrow text-[var(--wheat)] mb-2">
+            {greeting}, {farmer?.name || "Farmer"}
           </p>
-
-          <div className="mt-5">
-
-            <h2 className="
-            text-2xl
-            font-bold
-            text-gray-800
-            ">
-
-              {farmer?.name} 🌾
-
-            </h2>
-
-            <p className="
-            text-gray-600
-            mt-4
-            leading-8
-            max-w-3xl
-            ">
-
-              Soil moisture is currently
-              optimal at <b>61%</b>.
-
-              Nitrogen levels are slightly
-              high and should be monitored.
-
-              Rain probability is
-              <b> 68%</b> tomorrow.
-
-              Expected crop yield improvement:
-              <b> +12%</b>.
-
-            </p>
-
-          </div>
-
+          <h1 className="font-display text-2xl leading-snug mb-3">
+            AI Daily Farm Summary
+          </h1>
+          <p className="text-[var(--moss-100)]/75 text-sm leading-6 max-w-2xl">
+            Soil moisture is currently optimal at{" "}
+            <span className="readout text-white">61%</span>. Nitrogen levels
+            are slightly high and should be monitored. Rain probability is{" "}
+            <span className="readout text-white">68%</span> tomorrow.
+            Expected yield improvement:{" "}
+            <span className="readout text-white">+12%</span>.
+          </p>
         </div>
 
-        {/* AI SCORE */}
-
-        <div className="
-        bg-gradient-to-br
-        from-green-600
-        to-emerald-500
-        text-white
-        rounded-[30px]
-        p-6
-        min-w-[180px]
-        shadow-2xl
-        ">
-
-          <p className="text-white/80">
+        <div className="bg-white/10 border border-white/10 rounded-md p-5 min-w-[160px] shrink-0">
+          <p className="label-eyebrow text-[var(--moss-100)]/60">
             AI Confidence
           </p>
-
-          <h1 className="
-          text-5xl
-          font-bold
-          mt-3
-          ">
-
-            92%
-
-          </h1>
-
-          <p className="
-          mt-3
-          text-sm
-          text-green-100
-          ">
-
+          <p className="readout text-4xl font-medium mt-2">92%</p>
+          <p className="text-[var(--moss-100)]/60 text-xs mt-2">
             Smart prediction accuracy
           </p>
-
         </div>
-
       </div>
 
       {/* STATS */}
-
-      <div className="
-      grid
-      grid-cols-2
-      lg:grid-cols-4
-      gap-6
-      mt-10
-      relative
-      z-10
-      ">
-
-        <div className="
-        bg-green-50
-        p-6
-        rounded-[25px]
-        border
-        border-green-100
-        ">
-
-          <p className="text-gray-500">
-            Soil Health
-          </p>
-
-          <h1 className="
-          text-4xl
-          font-bold
-          text-green-700
-          mt-3
-          ">
-
-            84
-
-          </h1>
-
-        </div>
-
-        <div className="
-        bg-blue-50
-        p-6
-        rounded-[25px]
-        border
-        border-blue-100
-        ">
-
-          <p className="text-gray-500">
-            Moisture
-          </p>
-
-          <h1 className="
-          text-4xl
-          font-bold
-          text-blue-700
-          mt-3
-          ">
-
-            61%
-
-          </h1>
-
-        </div>
-
-        <div className="
-        bg-orange-50
-        p-6
-        rounded-[25px]
-        border
-        border-orange-100
-        ">
-
-          <p className="text-gray-500">
-            Rain Risk
-          </p>
-
-          <h1 className="
-          text-4xl
-          font-bold
-          text-orange-600
-          mt-3
-          ">
-
-            68%
-
-          </h1>
-
-        </div>
-
-        <div className="
-        bg-purple-50
-        p-6
-        rounded-[25px]
-        border
-        border-purple-100
-        ">
-
-          <p className="text-gray-500">
-            Yield Growth
-          </p>
-
-          <h1 className="
-          text-4xl
-          font-bold
-          text-purple-700
-          mt-3
-          ">
-
-            +12%
-
-          </h1>
-
-        </div>
-
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-7">
+        {STATS.map((s) => (
+          <div
+            key={s.label}
+            className="bg-white/[0.06] border border-white/10 p-4 rounded-md"
+          >
+            <p className="label-eyebrow text-[var(--moss-100)]/60 mb-2">
+              {s.label}
+            </p>
+            <p className="readout text-2xl font-medium">{s.value}</p>
+          </div>
+        ))}
       </div>
 
       {/* ALERTS */}
-
-      <div className="
-      mt-10
-      relative
-      z-10
-      ">
-
-        <div className="
-        flex
-        items-center
-        justify-between
-        mb-5
-        ">
-
-          <h1 className="
-          text-2xl
-          font-bold
-          text-green-900
-          ">
-
+      <div className="mt-7">
+        <div className="flex items-center justify-between mb-4">
+          <p className="label-eyebrow text-[var(--moss-100)]/60">
             Smart AI Alerts
-
-          </h1>
-
-          <div className="
-          bg-red-100
-          text-red-600
-          px-4
-          py-2
-          rounded-xl
-          text-sm
-          font-semibold
-          ">
-
-            3 Active Alerts
-
-          </div>
-
+          </p>
+          <span className="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded text-xs">
+            <FaTriangleExclamation className="text-[var(--wheat)]" size={10} />
+            {ALERTS.length} active
+          </span>
         </div>
 
-        <div className="space-y-4">
-
-          <div className="
-          bg-yellow-50
-          border
-          border-yellow-100
-          p-5
-          rounded-2xl
-          flex
-          items-center
-          gap-4
-          ">
-
-            <div className="
-            w-12
-            h-12
-            rounded-xl
-            bg-yellow-100
-            flex
-            items-center
-            justify-center
-            text-xl
-            ">
-
-              🌧️
-
+        <div className="space-y-2.5">
+          {ALERTS.map(({ icon: Icon, title, text }) => (
+            <div
+              key={title}
+              className="flex items-start gap-3 bg-white/[0.05] border border-white/10 p-3.5 rounded-md"
+            >
+              <span className="w-8 h-8 rounded-md bg-white/10 flex items-center justify-center shrink-0 text-[var(--wheat)]">
+                <Icon size={13} />
+              </span>
+              <div>
+                <p className="font-medium text-sm">{title}</p>
+                <p className="text-[var(--moss-100)]/65 text-xs mt-0.5 leading-5">
+                  {text}
+                </p>
+              </div>
             </div>
-
-            <div>
-
-              <h2 className="
-              font-bold
-              text-gray-800
-              ">
-
-                Rain Expected Tomorrow
-
-              </h2>
-
-              <p className="
-              text-gray-500
-              mt-1
-              ">
-
-                Avoid fertilizer application
-                during rainfall.
-
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className="
-          bg-blue-50
-          border
-          border-blue-100
-          p-5
-          rounded-2xl
-          flex
-          items-center
-          gap-4
-          ">
-
-            <div className="
-            w-12
-            h-12
-            rounded-xl
-            bg-blue-100
-            flex
-            items-center
-            justify-center
-            text-xl
-            ">
-
-              💧
-
-            </div>
-
-            <div>
-
-              <h2 className="
-              font-bold
-              text-gray-800
-              ">
-
-                Irrigation Stable
-
-              </h2>
-
-              <p className="
-              text-gray-500
-              mt-1
-              ">
-
-                Soil moisture is healthy
-                for crop growth.
-
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className="
-          bg-green-50
-          border
-          border-green-100
-          p-5
-          rounded-2xl
-          flex
-          items-center
-          gap-4
-          ">
-
-            <div className="
-            w-12
-            h-12
-            rounded-xl
-            bg-green-100
-            flex
-            items-center
-            justify-center
-            text-xl
-            ">
-
-              🌱
-
-            </div>
-
-            <div>
-
-              <h2 className="
-              font-bold
-              text-gray-800
-              ">
-
-                Nitrogen Monitoring
-
-              </h2>
-
-              <p className="
-              text-gray-500
-              mt-1
-              ">
-
-                Nitrogen slightly high.
-                Reduce urea this week.
-
-              </p>
-
-            </div>
-
-          </div>
-
+          ))}
         </div>
-
       </div>
-
     </motion.div>
   );
 }

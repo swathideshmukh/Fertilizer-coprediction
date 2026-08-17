@@ -1,7 +1,9 @@
-import { FaBell } from "react-icons/fa";
+import { useState } from "react";
+import NotificationDropdown from "./NotificationDropdown";
 
-function Navbar() {
+function Navbar({ title = "Field Console", subtitle }) {
   const farmer = JSON.parse(localStorage.getItem("farmer") || "null");
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -10,23 +12,21 @@ function Navbar() {
   });
 
   return (
-    <div className="flex justify-between items-end mb-9 pb-6 border-b border-[var(--line)]">
+    <div className="flex justify-between items-end mb-7 pb-5 border-b border-[var(--line)]">
       <div>
-        <p className="label-eyebrow mb-2">{today}</p>
-        <h1 className="font-display text-[2.1rem] leading-none text-[var(--moss-900)]">
-          Field Console
+        <p className="label-eyebrow mb-1.5">{today}</p>
+        <h1 className="font-display text-[1.85rem] leading-none text-[var(--moss-900)]">
+          {title}
         </h1>
-        <p className="text-[var(--ink-soft)] mt-2 text-[0.95rem]">
-          Welcome back, {farmer?.name || "Farmer"}
+        <p className="text-[var(--ink-soft)] mt-1.5 text-[0.9rem]">
+          {subtitle || `Welcome back, ${farmer?.name || "Farmer"}`}
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
-        <button className="w-11 h-11 rounded-md bg-[var(--paper)] border border-[var(--line)] flex items-center justify-center text-[var(--moss-700)] hover:border-[var(--line-strong)] transition-colors">
-          <FaBell size={15} />
-        </button>
+      <div className="flex items-center gap-2.5">
+        <NotificationDropdown open={notifOpen} setOpen={setNotifOpen} />
 
-        <div className="px-4 py-2.5 rounded-md bg-[var(--moss-900)] text-white text-sm flex items-center gap-2">
+        <div className="px-3.5 py-2 rounded-md bg-[var(--moss-900)] text-white text-xs flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--wheat)]" />
           AI Systems Active
         </div>
